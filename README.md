@@ -21,17 +21,17 @@ Este projeto simula um sistema completo de e-commerce aplicando diversos padrõe
 
 ### 3. **Padrões de Projeto**
 
-#### Factory Pattern
+#### Padrão Factory (Fábrica)
 - `PagamentoFactory`: criação de objetos de pagamento
 - `NotificadorFactory`: criação de notificadores
 - **Benefício**: Encapsulamento da lógica de criação
 
-#### Strategy Pattern
+#### Padrão Strategy (Estratégia)
 - Estratégias de desconto intercambiáveis
 - Cálculos de frete dinâmicos
 - **Benefício**: Algoritmos intercambiáveis em runtime
 
-#### Template Method Pattern
+#### Padrão Template Method (Método Template)
 - `GeradorRelatorio`: esqueleto do algoritmo
 - `RelatorioVendas`, `RelatorioFinanceiro`: implementações específicas
 - **Benefício**: Reutilização de código com pontos de extensão
@@ -141,11 +141,11 @@ java --enable-preview src/main/java/br/com/jug/ecommerce/Main.java
 
 ## 📐 Princípios SOLID Aplicados
 
-- ✅ **S**ingle Responsibility: Cada classe tem uma responsabilidade única
-- ✅ **O**pen/Closed: Aberto para extensão, fechado para modificação
-- ✅ **L**iskov Substitution: Subtipos substituem tipos base
-- ✅ **I**nterface Segregation: Interfaces específicas e coesas
-- ✅ **D**ependency Inversion: Dependência de abstrações
+- ✅ **S**ingle Responsibility (Responsabilidade Única): Cada classe tem uma responsabilidade única
+- ✅ **O**pen/Closed (Aberto/Fechado): Aberto para extensão, fechado para modificação
+- ✅ **L**iskov Substitution (Substituição de Liskov): Subtipos substituem tipos base
+- ✅ **I**nterface Segregation (Segregação de Interface): Interfaces específicas e coesas
+- ✅ **D**ependency Inversion (Inversão de Dependência): Dependência de abstrações
 
 ## 🎓 Recursos de Aprendizado
 
@@ -156,9 +156,9 @@ java --enable-preview src/main/java/br/com/jug/ecommerce/Main.java
 - **Coleções Polimórficas**: `List<TipoBase>`
 
 ### Padrões de Projeto
-- **Factory**: Criação de objetos
-- **Strategy**: Algoritmos intercambiáveis
-- **Template Method**: Esqueleto de algoritmo
+- **Fábrica (Factory)**: Criação de objetos
+- **Estratégia (Strategy)**: Algoritmos intercambiáveis
+- **Método Template (Template Method)**: Esqueleto de algoritmo
 
 ## 📝 Exemplos de Uso
 
