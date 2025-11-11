@@ -166,21 +166,28 @@ java --enable-preview src/main/java/br/com/jug/ecommerce/Main.java
 
 ```java
 public class PagamentoCarteira extends Pagamento {
+    
+    public PagamentoCarteira(BigDecimal valor) {
+        super(valor);
+    }
+    
     @Override
-    public boolean processar() {
+    public void processar() {
         // Implementação específica
-        return true;
+        this.id = "CARTEIRA-" + System.currentTimeMillis();
+        this.setStatus(StatusPagamento.APROVADO);
+        println("✓ Pagamento via Carteira Digital processado");
     }
     
     @Override
     public String gerarComprovante() {
-        return "Comprovante Carteira Digital";
+        return "Comprovante Carteira Digital - ID: " + id;
     }
 }
 
 // Atualizar Factory
 public class PagamentoFactory {
-    public static Pagamento criar(TipoPagamento tipo, ...) {
+    public static Pagamento criar(TipoPagamento tipo, BigDecimal valor, ...) {
         return switch (tipo) {
             case CARTEIRA_DIGITAL -> new PagamentoCarteira(valor);
             // ...existing cases...
