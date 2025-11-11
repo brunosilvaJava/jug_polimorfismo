@@ -121,13 +121,13 @@ java --enable-preview src/main/java/br/com/jug/ecommerce/Main.java
 
 ### Cenário 2: Cliente Premium - PIX
 - Cliente Premium recebe 25% de desconto
-- Frete Correios PAC
+- Frete Correios
 - Pagamento instantâneo via PIX
 - Notificação por WhatsApp
 
 ### Cenário 3: Cliente Comum - Boleto
-- Cupom de desconto "BLACKFRIDAY" (30%)
-- Frete Correios
+- Sem desconto (cliente comum)
+- Frete via Transportadora
 - Pagamento via boleto bancário
 - Notificação por SMS
 
