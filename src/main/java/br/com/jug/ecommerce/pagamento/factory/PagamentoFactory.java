@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 public class PagamentoFactory {
 
     public static Pagamento criar(DadosPagamento dadosPagamento, BigDecimal valor) {
+
         switch (dadosPagamento.getTipoPagamento()) {
             case CARTAO_CREDITO -> {
                 DadosCartao dadosCartao = dadosPagamento.getDadosCartao().orElseThrow();

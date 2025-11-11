@@ -3,8 +3,6 @@ package br.com.jug.ecommerce.pagamento;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import static java.lang.IO.println;
-
 public abstract class Pagamento {
 
     protected String id;
@@ -22,13 +20,6 @@ public abstract class Pagamento {
 
     public abstract String gerarComprovante();
 
-    public void registrarPagamento() {
-        println("✓ Pagamento registrado no sistema");
-        println("  ID: " + id);
-        println("  Valor: R$ " + valor);
-        println("  Data/Hora: " + dataHora);
-    }
-
     public boolean isAprovado() {
         return this.status == StatusPagamento.APROVADO;
     }
@@ -43,6 +34,10 @@ public abstract class Pagamento {
 
     public BigDecimal getValor() {
         return valor;
+    }
+
+    public LocalDateTime getDataHora() {
+        return dataHora;
     }
 
     public StatusPagamento getStatus() {

@@ -4,9 +4,6 @@ import br.com.jug.ecommerce.dominio.Pedido;
 
 import static java.lang.IO.println;
 
-/**
- * Implementação CONCRETA: Notificações por Email
- */
 public class NotificadorEmail implements Notificador {
 
     @Override

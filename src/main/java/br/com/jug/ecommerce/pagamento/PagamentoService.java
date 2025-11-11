@@ -14,13 +14,19 @@ public class PagamentoService {
     private static final List<Pagamento> PAGAMENTOS = new ArrayList<>();
 
     public static void processarPagamento(Pedido pedido) {
+
         Pagamento pagamento = PagamentoFactory.criar(pedido.getDadosPagamento(), pedido.calcularValorTotal());
 
         pagamento.processar();
         PAGAMENTOS.add(pagamento);
 
         if (pagamento.isAprovado()) {
-            pagamento.registrarPagamento();
+            {
+                println("✓ Pagamento registrado no sistema");
+                println("  ID: " + pagamento.getId());
+                println("  Valor: R$ " + pagamento.getValor());
+                println("  Data/Hora: " + pagamento.getDataHora());
+            }
             pedido.setStatus(StatusPedido.PAGAMENTO_APROVADO);
             {
                 println("   ✅ Status do pedido: " + pedido.getStatus());

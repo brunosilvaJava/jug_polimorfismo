@@ -7,10 +7,7 @@ import java.math.BigDecimal;
 import static java.lang.IO.println;
 
 public class FreteService {
-    /**
-     * Calcula e aplica frete ao pedido
-     * DEMONSTRA: Strategy Pattern com diferentes transportadoras
-     */
+
     public static void aplicarFrete(Pedido pedido) {
 
         CalculadoraFrete calculadora = switch (pedido.getTipoFrete()) {
