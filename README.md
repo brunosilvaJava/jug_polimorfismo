@@ -15,7 +15,7 @@ Este projeto simula um sistema completo de e-commerce aplicando diversos padrõe
 - Sobrescrita de métodos (`@Override`)
 
 ### 2. **Polimorfismo de Interface**
-- `EstrategiaDesconto`: diferentes estratégias de desconto
+- `Desconto`: diferentes estratégias de desconto
 - `CalculadoraFrete`: diversos tipos de frete
 - `Notificador`: múltiplos canais de notificação
 
@@ -41,50 +41,60 @@ Este projeto simula um sistema completo de e-commerce aplicando diversos padrõe
 ```
 jug_polimorfismo/
 ├── src/main/java/br/com/jug/ecommerce/
-│   ├── domain/              # Entidades do domínio
+│   ├── dominio/             # Entidades do domínio
 │   │   ├── Cliente.java
 │   │   ├── TipoCliente.java
+│   │   ├── DadosCartao.java
 │   │   ├── ItemPedido.java
 │   │   ├── Pedido.java
 │   │   └── StatusPedido.java
 │   │
-│   ├── payment/             # Sistema de pagamentos (Herança)
+│   ├── pagamento/           # Sistema de pagamentos (Herança)
 │   │   ├── Pagamento.java (abstract)
 │   │   ├── PagamentoCartao.java
 │   │   ├── PagamentoPix.java
 │   │   ├── PagamentoBoleto.java
+│   │   ├── PagamentoService.java
+│   │   ├── StatusPagamento.java
 │   │   └── factory/
 │   │       ├── PagamentoFactory.java
-│   │       ├── TipoPagamento.java
-│   │       └── DadosPagamento.java
+│   │       └── TipoPagamento.java
 │   │
-│   ├── discount/            # Estratégias de desconto (Strategy)
-│   │   ├── EstrategiaDesconto.java (interface)
+│   ├── desconto/            # Estratégias de desconto (Strategy)
+│   │   ├── Desconto.java (interface)
 │   │   ├── DescontoClienteVIP.java
 │   │   ├── DescontoClientePremium.java
 │   │   ├── DescontoPromocional.java
 │   │   ├── DescontoCupom.java
-│   │   └── SemDesconto.java
+│   │   └── DescontoService.java
 │   │
-│   ├── shipping/            # Cálculo de frete (Strategy)
+│   ├── frete/               # Cálculo de frete (Strategy)
 │   │   ├── CalculadoraFrete.java (interface)
 │   │   ├── FreteCorreios.java
 │   │   ├── FreteSedex.java
-│   │   └── FreteTransportadora.java
+│   │   ├── FreteTransportadora.java
+│   │   ├── FreteService.java
+│   │   └── TipoFrete.java
 │   │
-│   ├── notification/        # Sistema de notificações (Interface)
+│   ├── notificacao/         # Sistema de notificações (Interface)
 │   │   ├── Notificador.java (interface)
 │   │   ├── NotificadorEmail.java
 │   │   ├── NotificadorSMS.java
 │   │   ├── NotificadorWhatsApp.java
+│   │   ├── NotificacaoService.java
 │   │   └── factory/
 │   │       ├── NotificadorFactory.java
 │   │       └── TipoNotificacao.java
 │   │
-│   ├── report/              # Geração de relatórios (Template Method)
+│   ├── pedido/              # Processamento de pedidos
+│   │   ├── DadosPagamento.java
+│   │   └── PedidoService.java
+│   │
+│   ├── relatorio/           # Geração de relatórios (Template Method)
 │   │   ├── GeradorRelatorio.java (abstract)
 │   │   ├── RelatorioVendas.java
-│   │   └── RelatorioFinanceiro.java
+│   │   ├── RelatorioFinanceiro.java
+│   │   └── RelatorioService.java
 │   │
 │   └── Main.java            # Demonstração completa
 ```
@@ -92,19 +102,13 @@ jug_polimorfismo/
 ## 🚀 Como Executar
 
 ### Pré-requisitos
-- Java 17 ou superior
-- Maven ou compilação direta via `javac`
+- Java 21 ou superior (usa recursos modernos como `void main()` e `java.lang.IO`)
 
-### Compilação e Execução
+### Execução Direta
 
 ```bash
-# Via Maven
-mvn clean compile
-mvn exec:java -Dexec.mainClass="br.com.jug.ecommerce.Main"
-
-# Ou compilação direta
-javac -d bin src/main/java/br/com/jug/ecommerce/**/*.java
-java -cp bin br.com.jug.ecommerce.Main
+# Executar diretamente com java (Java 21+)
+java --enable-preview src/main/java/br/com/jug/ecommerce/Main.java
 ```
 
 ## 📊 Cenários Demonstrados
@@ -188,7 +192,7 @@ public class PagamentoFactory {
 ### Adicionar Nova Estratégia de Desconto
 
 ```java
-public class DescontoAniversario implements EstrategiaDesconto {
+public class DescontoAniversario implements Desconto {
     @Override
     public BigDecimal calcularDesconto(Pedido pedido) {
         // Lógica de desconto de aniversário
