@@ -15,23 +15,23 @@ Este projeto simula um sistema completo de e-commerce aplicando diversos padrõe
 - Sobrescrita de métodos (`@Override`)
 
 ### 2. **Polimorfismo de Interface**
-- `EstrategiaDesconto`: diferentes estratégias de desconto
+- `Desconto`: diferentes estratégias de desconto
 - `CalculadoraFrete`: diversos tipos de frete
 - `Notificador`: múltiplos canais de notificação
 
 ### 3. **Padrões de Projeto**
 
-#### Factory Pattern
+#### Padrão Factory (Fábrica)
 - `PagamentoFactory`: criação de objetos de pagamento
 - `NotificadorFactory`: criação de notificadores
 - **Benefício**: Encapsulamento da lógica de criação
 
-#### Strategy Pattern
+#### Padrão Strategy (Estratégia)
 - Estratégias de desconto intercambiáveis
 - Cálculos de frete dinâmicos
 - **Benefício**: Algoritmos intercambiáveis em runtime
 
-#### Template Method Pattern
+#### Padrão Template Method (Método Template)
 - `GeradorRelatorio`: esqueleto do algoritmo
 - `RelatorioVendas`, `RelatorioFinanceiro`: implementações específicas
 - **Benefício**: Reutilização de código com pontos de extensão
@@ -41,50 +41,60 @@ Este projeto simula um sistema completo de e-commerce aplicando diversos padrõe
 ```
 jug_polimorfismo/
 ├── src/main/java/br/com/jug/ecommerce/
-│   ├── domain/              # Entidades do domínio
+│   ├── dominio/             # Entidades do domínio
 │   │   ├── Cliente.java
 │   │   ├── TipoCliente.java
+│   │   ├── DadosCartao.java
 │   │   ├── ItemPedido.java
 │   │   ├── Pedido.java
 │   │   └── StatusPedido.java
 │   │
-│   ├── payment/             # Sistema de pagamentos (Herança)
+│   ├── pagamento/           # Sistema de pagamentos (Herança)
 │   │   ├── Pagamento.java (abstract)
 │   │   ├── PagamentoCartao.java
 │   │   ├── PagamentoPix.java
 │   │   ├── PagamentoBoleto.java
+│   │   ├── PagamentoService.java
+│   │   ├── StatusPagamento.java
 │   │   └── factory/
 │   │       ├── PagamentoFactory.java
-│   │       ├── TipoPagamento.java
-│   │       └── DadosPagamento.java
+│   │       └── TipoPagamento.java
 │   │
-│   ├── discount/            # Estratégias de desconto (Strategy)
-│   │   ├── EstrategiaDesconto.java (interface)
+│   ├── desconto/            # Estratégias de desconto (Strategy)
+│   │   ├── Desconto.java (interface)
 │   │   ├── DescontoClienteVIP.java
 │   │   ├── DescontoClientePremium.java
 │   │   ├── DescontoPromocional.java
 │   │   ├── DescontoCupom.java
-│   │   └── SemDesconto.java
+│   │   └── DescontoService.java
 │   │
-│   ├── shipping/            # Cálculo de frete (Strategy)
+│   ├── frete/               # Cálculo de frete (Strategy)
 │   │   ├── CalculadoraFrete.java (interface)
 │   │   ├── FreteCorreios.java
 │   │   ├── FreteSedex.java
-│   │   └── FreteTransportadora.java
+│   │   ├── FreteTransportadora.java
+│   │   ├── FreteService.java
+│   │   └── TipoFrete.java
 │   │
-│   ├── notification/        # Sistema de notificações (Interface)
+│   ├── notificacao/         # Sistema de notificações (Interface)
 │   │   ├── Notificador.java (interface)
 │   │   ├── NotificadorEmail.java
 │   │   ├── NotificadorSMS.java
 │   │   ├── NotificadorWhatsApp.java
+│   │   ├── NotificacaoService.java
 │   │   └── factory/
 │   │       ├── NotificadorFactory.java
 │   │       └── TipoNotificacao.java
 │   │
-│   ├── report/              # Geração de relatórios (Template Method)
+│   ├── pedido/              # Processamento de pedidos
+│   │   ├── DadosPagamento.java
+│   │   └── PedidoService.java
+│   │
+│   ├── relatorio/           # Geração de relatórios (Template Method)
 │   │   ├── GeradorRelatorio.java (abstract)
 │   │   ├── RelatorioVendas.java
-│   │   └── RelatorioFinanceiro.java
+│   │   ├── RelatorioFinanceiro.java
+│   │   └── RelatorioService.java
 │   │
 │   └── Main.java            # Demonstração completa
 ```
@@ -92,19 +102,13 @@ jug_polimorfismo/
 ## 🚀 Como Executar
 
 ### Pré-requisitos
-- Java 17 ou superior
-- Maven ou compilação direta via `javac`
+- Java 21 ou superior (usa recursos modernos como `void main()` e `java.lang.IO`)
 
-### Compilação e Execução
+### Execução Direta
 
 ```bash
-# Via Maven
-mvn clean compile
-mvn exec:java -Dexec.mainClass="br.com.jug.ecommerce.Main"
-
-# Ou compilação direta
-javac -d bin src/main/java/br/com/jug/ecommerce/**/*.java
-java -cp bin br.com.jug.ecommerce.Main
+# Executar diretamente com java (Java 21+)
+java --enable-preview src/main/java/br/com/jug/ecommerce/Main.java
 ```
 
 ## 📊 Cenários Demonstrados
@@ -117,13 +121,13 @@ java -cp bin br.com.jug.ecommerce.Main
 
 ### Cenário 2: Cliente Premium - PIX
 - Cliente Premium recebe 25% de desconto
-- Frete Correios PAC
+- Frete Correios
 - Pagamento instantâneo via PIX
 - Notificação por WhatsApp
 
 ### Cenário 3: Cliente Comum - Boleto
-- Cupom de desconto "BLACKFRIDAY" (30%)
-- Frete Correios
+- Sem desconto (cliente comum)
+- Frete via Transportadora
 - Pagamento via boleto bancário
 - Notificação por SMS
 
@@ -137,11 +141,11 @@ java -cp bin br.com.jug.ecommerce.Main
 
 ## 📐 Princípios SOLID Aplicados
 
-- ✅ **S**ingle Responsibility: Cada classe tem uma responsabilidade única
-- ✅ **O**pen/Closed: Aberto para extensão, fechado para modificação
-- ✅ **L**iskov Substitution: Subtipos substituem tipos base
-- ✅ **I**nterface Segregation: Interfaces específicas e coesas
-- ✅ **D**ependency Inversion: Dependência de abstrações
+- ✅ **S**ingle Responsibility (Responsabilidade Única): Cada classe tem uma responsabilidade única
+- ✅ **O**pen/Closed (Aberto/Fechado): Aberto para extensão, fechado para modificação
+- ✅ **L**iskov Substitution (Substituição de Liskov): Subtipos substituem tipos base
+- ✅ **I**nterface Segregation (Segregação de Interface): Interfaces específicas e coesas
+- ✅ **D**ependency Inversion (Inversão de Dependência): Dependência de abstrações
 
 ## 🎓 Recursos de Aprendizado
 
@@ -152,9 +156,9 @@ java -cp bin br.com.jug.ecommerce.Main
 - **Coleções Polimórficas**: `List<TipoBase>`
 
 ### Padrões de Projeto
-- **Factory**: Criação de objetos
-- **Strategy**: Algoritmos intercambiáveis
-- **Template Method**: Esqueleto de algoritmo
+- **Fábrica (Factory)**: Criação de objetos
+- **Estratégia (Strategy)**: Algoritmos intercambiáveis
+- **Método Template (Template Method)**: Esqueleto de algoritmo
 
 ## 📝 Exemplos de Uso
 
@@ -162,21 +166,28 @@ java -cp bin br.com.jug.ecommerce.Main
 
 ```java
 public class PagamentoCarteira extends Pagamento {
+    
+    public PagamentoCarteira(BigDecimal valor) {
+        super(valor);
+    }
+    
     @Override
-    public boolean processar() {
+    public void processar() {
         // Implementação específica
-        return true;
+        this.id = "CARTEIRA-" + System.currentTimeMillis();
+        this.setStatus(StatusPagamento.APROVADO);
+        println("✓ Pagamento via Carteira Digital processado");
     }
     
     @Override
     public String gerarComprovante() {
-        return "Comprovante Carteira Digital";
+        return "Comprovante Carteira Digital - ID: " + id;
     }
 }
 
 // Atualizar Factory
 public class PagamentoFactory {
-    public static Pagamento criar(TipoPagamento tipo, ...) {
+    public static Pagamento criar(TipoPagamento tipo, BigDecimal valor, ...) {
         return switch (tipo) {
             case CARTEIRA_DIGITAL -> new PagamentoCarteira(valor);
             // ...existing cases...
@@ -188,7 +199,7 @@ public class PagamentoFactory {
 ### Adicionar Nova Estratégia de Desconto
 
 ```java
-public class DescontoAniversario implements EstrategiaDesconto {
+public class DescontoAniversario implements Desconto {
     @Override
     public BigDecimal calcularDesconto(Pedido pedido) {
         // Lógica de desconto de aniversário
